@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail | Online.JS</title>
+    <link id='favicon' rel="shortcut icon" href="./img/favicon1.png" type="image/x-png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0px;
+            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDM9-gcl-Nu7YNL-A2AKcDI9-88EtyvUQzfg&usqp=CAU");
+        }
+
+        #nav {
+            height: 60px;
+            background-color: black;
+            padding-top: 10px;
+            padding-left: 20px;
+        }
+
+        #logo {
+            color: #fff;
+            font-size: xx-large;
+            letter-spacing: 1px;
+            text-decoration: underline;
+            margin-bottom: 10px;
+        }
+
+        #logo:hover {
+            cursor: pointer;
+        }
+
+        #main {
+            background-color: rgb(0, 0, 0);
+            color: #fff;
+            width: 80%;
+            margin-top: 50px;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            border-bottom: 5px solid rgb(0, 255, 0);
+            margin-bottom: 230px;
+        }
+
+        #pic {
+            flex: 0 0 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 300px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        #any {
+            margin-left: 20px;
+        }
+
+        button {
+            width: 150px;
+            height: 45px;
+            margin-left: 20px;
+            background-color: rgb(0, 255, 0);
+            border-radius: 10px;
+            font-size: larger;
+            font-weight: bold;
+            color: #fff;
+            margin-left: -5px;
+            border: none;
+        }
+
+        button:hover {
+            cursor: pointer;
+            background-color: orangered;
+            color: gold;
+        }
+
+        #ttle {
+            text-decoration: underline;
+            text-align: start;
+        }
+
+        #ctegory {
+            text-align: start;
+            color: red;
+        }
+
+        #dscription {
+            text-align: start;
+            width: 640px;
+            overflow: hidden;
+        }
+
+        #pice {
+            text-align: start;
+        }
+
+        #rting {
+            text-align: start;
+        }
+
+        #dollar {
+            color: green;
+        }
+
+        #star {
+            color: yellow;
+        }
+
+        #cross {
+            margin-left: 484px;
+            font-size: x-large;
+            color: rgb(0, 255, 0);
+        }
+
+        #cross:hover {
+            color: #fff;
+        }
+
+        input {
+            width: 70px;
+            height: 35px;
+            border: none;
+            border-radius: 10px;
+            font-size: larger;
+            font-weight: bold;
+            color: #000000;
+            margin-right: 15px;
+            padding-left: 9px;
+            border: 5px solid rgb(0, 255, 0);
+            margin-top: 300px;
+        }
+
+        input::placeholder {
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <nav id="nav">
+        <center>
+            <i class="fa-solid fa-cart-shopping" id="logo" onclick="location.replace(`./Web.html`)"> Online.JS</i>
+        </center>
+    </nav>
+    <center>
+        <div id="main">
+            <img src="./image (1).webp" alt="Product Image" id="pic">
+            <div id="any">
+                <h1 id="ttle">Title.</h1>
+                <h4 id="pice">Price <i class="fa-solid fa-dollar-sign" id="dollar"></i></h4>
+                <input type="number" placeholder="Quantity" id="quantity" value="1">
+                <button id="btn">Add To <i class="fa-solid fa-cart-shopping" id="cart"></i></button>
+            </div>
+            <i class="fa-solid fa-xmark" id="cross"></i>
+        </div>
+    </center>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module">
+        let api = JSON.parse(localStorage.getItem("Detail"))
+        let pic = document.getElementById("pic");
+        let title = document.getElementById("ttle");
+        let price = document.getElementById("pice");
+        pic.src = api.Image;
+        title.innerHTML = api.Title;
+        price.innerHTML = `${api.Price} <i class="fa-solid fa-dollar-sign" id="dollar"></i>`;
+
+        console.log("Detail Object: ", api);
+
+
+
+        // // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+        import { getFirestore, getDocs, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbh8mSIAKBFC4oXoTscLgrnXRbujmXEQU",
+            authDomain: "hakathon-practice.firebaseapp.com",
+            projectId: "hakathon-practice",
+            storageBucket: "hakathon-practice.appspot.com",
+            messagingSenderId: "196171728036",
+            appId: "1:196171728036:web:b8afb89710629a473fd231",
+            measurementId: "G-PVD3BSSS5X"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        document.getElementById('btn').addEventListener('click', async () => {
+            let quantity = document.getElementById("quantity").value;
+            try {
+                const docRef = await addDoc(collection(db, "CartProducts"), {
+                    Imageurl: api.Image,
+                    Title: api.Title,
+                    Price: api.Price,
+                    Quantity: quantity,
+                });
+                Swal.fire({
+                    icon: "success",
+                    title: `Successfully your product has been carted`,
+                    ConfirmButton: "Ok"
+                }).then(() => {
+                    window.location.href = "./Checkout.html"
+                })
+                console.log("Document written with ID: ", docRef.id);
+            } catch (error) {
+                console.error("Cart Error -->", error);
+            }
+        })
+
+        const cross = document.getElementById("cross")
+        cross.addEventListener('click', () => {
+            window.location.href = "./index.html";
+        })
+
+    </script>
+</body>
+
+</html>
